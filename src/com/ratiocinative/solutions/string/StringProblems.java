@@ -4,42 +4,33 @@ import java.util.*;
 
 public class StringProblems {
 
-    public String reverseWords(String s) {
-        if (s != null && s.length() > 1) {
-            char[] inputArray = s.toCharArray();
-            char delimiter = ' ';
-            int startWord = 0;
-            int endWord = 0;
-            boolean delimiterFound = false;
-            for (int i = 0; i < inputArray.length; i++) {
-                endWord = i;
-                if (inputArray[i] == delimiter || i == inputArray.length - 1) {
-                    delimiterFound = true;
-                }
-                if (delimiterFound && (endWord - startWord) > 0) {
-                    int tmpStart = startWord;
-                    int tmpEnd = endWord - 1;
-                    while (tmpEnd > tmpStart) {
-                        char t = inputArray[tmpEnd];
-                        inputArray[tmpEnd] = inputArray[tmpStart];
-                        inputArray[tmpStart] = t;
-                        tmpStart++;
-                        tmpEnd--;
-                    }
-                    delimiterFound = false;
-                    startWord = i + 1;
-                }
+    public String reverseWords(String str) {
+        char[] s = str.toCharArray();
+        int i = 0;
+        int start = 0;
+        boolean found = false;
+        while (i < s.length) {
+            if (s[i] == ' ') {
+                found = true;
+                reverse(s, start, i - 1);
+                start = i + 1;
+            } else if (found && (i + 1) == s.length) {
+                reverse(s, start, i);
             }
-            char[] reverse = new char[inputArray.length];
-            System.out.println(new String(inputArray));
-            int index = 0;
-            for (int i = inputArray.length - 1; i >= 0; i--) {
-                reverse[index] = inputArray[i];
-                index++;
-            }
-            return new String(reverse);
+            i++;
         }
-        return s;
+        if (found) reverse(s, 0, s.length - 1);
+        return new String(s);
+    }
+
+    public void reverse(char[] s, int start, int end) {
+        while (start < end) {
+            char tmp = s[end];
+            s[end] = s[start];
+            s[start] = tmp;
+            start++;
+            end--;
+        }
     }
 
     public List<Set<Character>> getPowerSet(Set<Character> s) {
@@ -148,7 +139,7 @@ public class StringProblems {
         System.out.println(str.getCommonChars("ab", "ab"));
         System.out.println(str.getCommonChars("abas", "abaaabb"));
 
-        // System.out.println(str.reverseWords("Hello World"));
+        System.out.println(str.reverseWords("Hello World!!!"));
 
         System.out.println(str.isPalindrone("A man, a plan, a canal, Panama!"));
 
